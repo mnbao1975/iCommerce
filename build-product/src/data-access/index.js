@@ -4,7 +4,7 @@ import mongodb from "mongodb";
 const MongoClient = mongodb.MongoClient;
 const url = process.env.MONGO_URL;
 const dbName = process.env.MONGO_DBNAME;
-const client = new MongoClient(url, { useNewUrlParser: true });
+const client = new MongoClient(url, { useUnifiedTopology: true });
 
 export async function makeDb() {
   if (!client.isConnected()) {

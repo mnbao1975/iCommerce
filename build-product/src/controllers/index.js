@@ -1,11 +1,16 @@
-import { addProduct } from "../use-cases";
+import { addProduct, removeProduct } from "../use-cases";
 
 import makePostProduct from "./post-product";
+import makeDeleteProduct from "./delete-product";
 import notFound from "./not-found";
 
 const postProduct = makePostProduct({ addProduct });
-
-const productController = Object.freeze({ postProduct, notFound });
+const deleteProduct = makeDeleteProduct({ removeProduct });
+const productController = Object.freeze({
+  postProduct,
+  deleteProduct,
+  notFound,
+});
 
 export default productController;
-export { postProduct, notFound };
+export { postProduct, deleteProduct, notFound };

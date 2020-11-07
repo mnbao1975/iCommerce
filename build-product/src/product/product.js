@@ -17,7 +17,7 @@ export default function buildMakeProduct({ Id }) {
     }
 
     if (!price || price <= 0) {
-      throw new Error("Product must be positive");
+      throw new Error("Product price must be positive");
     }
 
     return Object.freeze({

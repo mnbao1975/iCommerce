@@ -1,7 +1,7 @@
 import makeProduct from "../product";
 
 export default function makeAddProduct({ productsDb }) {
-  return function addProduct(productInfo) {
+  return async function addProduct(productInfo) {
     const product = makeProduct(productInfo);
     return productsDb.insert({
       id: product.getId(),

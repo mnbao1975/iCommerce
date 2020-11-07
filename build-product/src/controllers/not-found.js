@@ -1,4 +1,4 @@
-export default function notFound() {
+export default async function notFound() {
   return {
     headers: {
       "Content-Type": "application/json",

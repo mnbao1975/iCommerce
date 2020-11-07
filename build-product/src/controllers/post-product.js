@@ -1,7 +1,7 @@
 export default function makePostProduct({ addProduct }) {
-  return function postProduct(httpRequest) {
+  return async function postProduct(httpRequest) {
     try {
-      const product = addProduct(httpRequest.body);
+      const product = await addProduct(httpRequest.body);
       return {
         headers: {
           "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export default function makePostProduct({ addProduct }) {
       };
     } catch (e) {
       // TODO: Error logging
-      console.log(e);
+      //console.log(e);
 
       return {
         headers: {

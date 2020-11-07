@@ -1,7 +1,7 @@
 {
   "name": "build-product",
   "version": "1.0.0",
-  "description": "",
+  "description": "API server for only CUD (Create, Update, Delete) data to Product only",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
