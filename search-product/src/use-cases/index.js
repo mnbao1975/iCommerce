@@ -1,16 +1,10 @@
-import makeAddProduct from "./add-product";
-import makeRemoveProduct from "./remove-product";
-import makeUpdateProduct from "./update-product";
+import makeSearchProductId from "./seach-product-id";
 import productsDb from "../data-access";
 
-const addProduct = makeAddProduct({ productsDb });
-const removeProduct = makeRemoveProduct({ productsDb });
-const updateProduct = makeUpdateProduct({ productsDb });
+const searchProductId = makeSearchProductId({ productsDb });
 const productService = Object.freeze({
-  addProduct,
-  removeProduct,
-  updateProduct,
+  searchProductId,
 });
 
 export default productService;
-export { addProduct, removeProduct, updateProduct };
+export { searchProductId };
