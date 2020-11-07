@@ -1,5 +1,3 @@
-import makeProduct from "../product";
-
 export default function makeRemoveProduct({ productsDb }) {
   return async function removeProduct({ id = {} }) {
     if (!id) {

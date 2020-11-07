@@ -1,7 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import { postProduct, deleteProduct, notFound } from "./controllers";
+import {
+  postProduct,
+  deleteProduct,
+  patchProduct,
+  notFound,
+} from "./controllers";
 import makeExpressRouter from "./express-router";
 
 dotenv.config();
@@ -14,6 +19,7 @@ app.get("/hello", (_, res) => {
 
 app.post("/products", makeExpressRouter(postProduct));
 app.delete("/products/:id", makeExpressRouter(deleteProduct));
+app.patch("/products/:id", makeExpressRouter(patchProduct));
 app.use(makeExpressRouter(notFound));
 
 const port = process.env.PORT;

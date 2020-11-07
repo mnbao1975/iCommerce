@@ -3,8 +3,8 @@ export default function buildMakeProduct({ Id }) {
     id = Id.makeId(),
     name,
     price,
-    branch = "",
-    color = "",
+    branch,
+    color,
     createdOn = Date.now(),
     modifiedOn = Date.now(),
   } = {}) {
