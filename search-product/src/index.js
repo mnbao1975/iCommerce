@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import { getProductId, notFound } from "./controllers";
+import { getProductId, getProducts, notFound } from "./controllers";
 import makeExpressRouter from "./express-router";
 
 dotenv.config();
@@ -13,6 +13,7 @@ app.get("/hello", (_, res) => {
 });
 
 app.get("/products/:id", makeExpressRouter(getProductId));
+app.get("/products", makeExpressRouter(getProducts));
 app.use(makeExpressRouter(notFound));
 
 const port = process.env.PORT;

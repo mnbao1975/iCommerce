@@ -1,6 +1,6 @@
 # iCommerce
 
-Create a product
+POST a product
 curl --location --request POST 'http://localhost:3001/products' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -10,7 +10,7 @@ curl --location --request POST 'http://localhost:3001/products' \
 "color": "blue"
 }'
 
-Update a product
+PATCH a product
 curl --location --request PATCH 'http://localhost:3001/products/ckh79ap8700030a159eehbk7c' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -20,10 +20,18 @@ curl --location --request PATCH 'http://localhost:3001/products/ckh79ap8700030a1
 "color": "yellow"
 }'
 
-Delete a product
+DELETE a product
 curl --location --request DELETE 'http://localhost:3001/products/ckh79vnag00009k15heoe9s1b' \
 --header 'Content-Type: application/json'
 
-Read a product
+GET a product
 curl --location --request GET 'http://localhost:3002/products/ckh79ap8700030a159eehbk7c' \
+--header 'Content-Type: application/json'
+
+GET all products
+curl --location --request GET 'http://localhost:3002/products' \
+--header 'Content-Type: application/json'
+
+GET products with conditions
+curl --location --request GET 'http://localhost:3002/products?name=iphone&color=red' \
 --header 'Content-Type: application/json'

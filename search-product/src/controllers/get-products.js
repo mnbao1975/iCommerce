@@ -1,18 +1,18 @@
-export default function makeDeleteProduct({ removeProduct }) {
-  return async function deleteProduct(httpRequest) {
+export default function makeGetProducts({ searchProducts }) {
+  return async function getProducts(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
+
     try {
-      const deleted = await removeProduct({ id: httpRequest.params.id });
+      const products = await searchProducts({ query: httpRequest.query });
       return {
         headers,
         statusCode: 200,
-        body: { deleted },
+        body: { products },
       };
     } catch (e) {
-      // TODO: Error logging
-      console.log(e);
+      //console.log(e);
       return {
         headers,
         statusCode: 400,
