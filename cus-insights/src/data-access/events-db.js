@@ -1,7 +1,16 @@
+import Id from "../id";
 export default function makeEventDb({ makeDb }) {
   let collection = "events";
 
-  return Object.freeze({ findById, findAll });
+  return Object.freeze({ findById, findAll, insert });
+  async function insert({ id: _id = Id.makeId(), ...eventInfo }) {
+    const db = await makeDb();
+    const result = await db
+      .collection(collection)
+      .insertOne({ _id, ...eventInfo });
+    const { _id: id, ...insertedInfo } = result.ops[0];
+    return { id, ...insertedInfo };
+  }
 
   async function findById({ id: _id }) {
     const db = await makeDb();

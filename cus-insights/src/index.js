@@ -1,4 +1,4 @@
-import { subSearchEvent } from "./controllers";
+import { subSearchEvent, processEvent } from "./controllers";
 
 const viewProductChannel = process.env.VIEW_PRODUCT_CHANNEL;
 const filterProductChannel = process.env.FILTER_PRODUCT_CHANNEL;
@@ -7,8 +7,10 @@ const filterProductChannel = process.env.FILTER_PRODUCT_CHANNEL;
   let channel = null;
   channel = await subSearchEvent({ channel: viewProductChannel });
   channel = await subSearchEvent({ channel: filterProductChannel });
-  channel.on("message", (channel, message) => {
+  channel.on("message", async (channel, message) => {
     console.log("Receive message %s from channel %s", message, channel);
+    let result = await processEvent({ message });
+    console.log(result);
   });
 
   console.log(

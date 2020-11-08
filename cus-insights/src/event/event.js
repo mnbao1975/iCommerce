@@ -16,10 +16,6 @@ export default function buildMakeEvent({ Id }) {
       throw new Error("Event must have a name");
     }
 
-    if (!price || price <= 0) {
-      throw new Error("Product price must be positive");
-    }
-
     return Object.freeze({
       getId: () => id,
       getEventName: () => eventName,

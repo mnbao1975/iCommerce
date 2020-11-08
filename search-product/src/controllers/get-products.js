@@ -9,8 +9,10 @@ export default function makeGetProducts({ searchProducts, pubSearchEvent }) {
       const message = JSON.stringify({
         eventName: channel,
         eventTime: Date.now(),
-        userId: headers["User-Id"] ? headers["User-Id"] : "anonymous",
-        userAgent: headers["User-Agent"],
+        userId: httpRequest.headers["User-Id"]
+          ? httpRequest.headers["User-Id"]
+          : "anonymous",
+        userAgent: httpRequest.headers["User-Agent"],
         metadata: { query: httpRequest.query },
       });
       pubSearchEvent({ channel, message });

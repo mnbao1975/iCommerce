@@ -1,8 +1,12 @@
-import { subSearchEvent } from "../use-cases";
+import { subSearchEvent, addEvent } from "../use-cases";
+import makeProcessEvent from "./process-event";
 
-const productController = Object.freeze({
+const processEvent = makeProcessEvent({ addEvent });
+
+const customerServices = Object.freeze({
   subSearchEvent,
+  processEvent,
 });
 
-export default productController;
-export { subSearchEvent };
+export default customerServices;
+export { subSearchEvent, processEvent };
