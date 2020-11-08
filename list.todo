@@ -1,8 +1,9 @@
 Project:
   - update 'script' of the package file @done
     - build, db, start @done
-  - update file samepledotevn
+  - update file samepledotevn @done
   - clean up redundant files @done
   - clean up old folders @done
+  - apply cors @done
   
   
