@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean && babel src -d dist",
     "clean": "rimraf dist",
-    "db": "babel-node ./db/index.js",
-    "start": "npm run build && npm run db && cd dist && node index.js",
+    "start": "npm run build && cd dist && node index.js",
     "dev": "nodemon --exec babel-node ./src/index.js"
   },
   "keywords": [],
@@ -29,6 +28,7 @@
     "body-parser": "^1.19.0",
     "cuid": "^2.1.8",
     "express": "^4.17.1",
+    "ioredis": "^4.19.2",
     "mongodb": "^3.6.2"
   }
 }

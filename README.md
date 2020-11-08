@@ -35,3 +35,6 @@ curl --location --request GET 'http://localhost:3002/products' \
 GET products with conditions
 curl --location --request GET 'http://localhost:3002/products?name=iphone&color=red' \
 --header 'Content-Type: application/json'
+
+docker run --rm --name local-mongo -p 27017:27017 -v ~/mongodata:/data/db -d mongo
+docker run --rm --name my-redis -p 6379:6379 -d redis
