@@ -15,8 +15,8 @@ We'll scope the problem to handle only the following use cases:
 - User updates a specific product
 - User views the details of of a specific product
 - User searches a specific product by id
-- User filter a list of products with conditions such and name and color.
-- User's activities on product such as viewing a product, filtering a list of products will be stored
+- User filters a list of products with conditions such and name and color.
+- User's activities on product such as viewing a product, filtering a list of products will be stored into database
 
 ## Out of scope
 
@@ -26,8 +26,9 @@ We'll scope the problem to handle only the following use cases:
 
 ## Constraints & assumptions
 
-- A request with "user-id" header will be considered a request of a user who was signed in
+- A request with "user-id" header will be considered as a request of a signed-in user
 - MongoDB and Redis are installed and running
+- Only one MongoDB instance, no replicated instance. It's just showed on the system architecture for reviewing
 
 ## High level design
 
