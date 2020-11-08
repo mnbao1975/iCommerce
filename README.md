@@ -31,7 +31,7 @@ We'll scope the problem to handle only the following use cases:
 
 ## High level design
 
-![alt text](https://github.com/mnbao1975/iCommerce/blob/main/images/NAB-solution-architecture.png?raw=true)
+![High level design](https://github.com/mnbao1975/iCommerce/blob/main/images/NAB-solution-architecture.png?raw=true)
 
 The backend is designed with some modern patterns as following:
 
@@ -39,19 +39,30 @@ The backend is designed with some modern patterns as following:
 - Event-driven pattern - User's activities on the product such as viewing a product, filtering a list of products will be stored in the database. Those activities will be published as events to other services (workers) which will process those events for sales or marketing purposes. With this pattern, any service (worker) could subscribe to a channel in order to receive published events for its own purpose
 - CQRS pattern - the system seperates the writing and reading data APIs for scaling easily.
 
-## Sequence diagram
+## A sequence diagram
 
-The below diagram is the workflow for searching product(s). Users can view details of a specifice product or filter the list of products with conditions such as name and color. And, their activies will be stored in the database also.
+![High level design](https://github.com/mnbao1975/iCommerce/blob/main/images/NAB-seq-diagram.png?raw=true)
+
+The above diagram is the workflow for searching product(s). Users can view details of a specifice product or filter the list of products with conditions such as name and color. And, their activies will be stored in the database also.
 
 ## System Scaling
 
 ## Tech Stacks
 
+- MongoDB 4.x
+- Redis 6.x
+- NodeJS 12.x
+- ExpressJS 4.x
+
 ## Architecure of Application
 
 ### Clean architecutre
 
+The REST API services are impleted with clean architecture.
+
 ### Folder structure
+
+The api-gateway, build-product and search-product folders are REST APIs. And, the cus-insights is the worker processes and stores pushlished events into the database.
 
 ## Local deployment
 
