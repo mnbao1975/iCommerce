@@ -1,7 +1,7 @@
 {
-  "name": "search-product",
+  "name": "cus-insights",
   "version": "1.0.0",
-  "description": "API server for R (Reading) data from Product only",
+  "description": "API server for only CUD (Create, Update, Delete) data to Product only",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -25,9 +25,7 @@
     "rimraf": "^3.0.2"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
     "cuid": "^2.1.8",
-    "express": "^4.17.1",
     "ioredis": "^4.19.2",
     "mongodb": "^3.6.2"
   }

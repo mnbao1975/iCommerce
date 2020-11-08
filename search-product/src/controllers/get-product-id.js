@@ -5,7 +5,7 @@ export default function makeGetProductId({ searchProductId, pubSearchEvent }) {
     };
 
     try {
-      const channel = "VIEW_PRODUCT";
+      const channel = process.env.VIEW_PRODUCT_CHANNEL;
       const message = JSON.stringify({
         eventName: channel,
         eventTime: Date.now(),

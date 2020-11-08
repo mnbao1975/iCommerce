@@ -1,8 +1,11 @@
 # Save this file as .env and fill in the appropriate values
-PORT=3002
+PORT=3003
 BASE_URL=http://localhost:3002/
 MONGO_URL=mongodb://localhost:27017
 MONGO_DBNAME=icommerce
 REDIS_URL=redis://127.0.0.1:6379/0
 REDIS_PORT=6379
 REDIS_HOST=127.0.0.1
+
+VIEW_PRODUCT_CHANNEL=VIEW_PRODUCT
+FILTER_PRODUCT_CHANNEL=FILTER_PRODUCT

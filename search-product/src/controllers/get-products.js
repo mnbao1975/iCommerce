@@ -5,7 +5,7 @@ export default function makeGetProducts({ searchProducts, pubSearchEvent }) {
     };
 
     try {
-      const channel = "FILTER_PRODUCT";
+      const channel = process.env.FILTER_PRODUCT_CHANNEL;
       const message = JSON.stringify({
         eventName: channel,
         eventTime: Date.now(),
