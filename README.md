@@ -36,7 +36,7 @@ We'll scope the problem to handle only the following use cases:
 The backend is designed with some modern patterns as following:
 
 - Microservices pattern - There are 3 REST API services. One of them is a API gateway running as the main endpoint for user's requests. And, when a request reaches it, the request will be routed to the relevant REST API service
-- Event-driven pattern - User's activities on the product such as viewing a product, filtering a list of products will be stored in the database. Those activities will be published as events to other services (workers) which will process those events for sales or marketing purposes. With this pattern, any service (worker) could subscribe to a channel in order to receive published events for its own purpose
+- Event-driven pattern - User's activities on the product such as viewing a product, filtering a list of products will be stored in the database. Those activities will be published as events to other services (workers) which will process those events for sales or marketing purpose. With this pattern, any service (worker) could subscribe to a channel in order to receive published events for its own purpose
 - CQRS pattern - the system seperates the writing and reading data APIs for scaling easily.
 
 ## A sequence diagram
@@ -126,15 +126,15 @@ Example of a publised event message (via Redis):
 
 ### The clean architecutre pattern
 
-The 3 REST API services are impleted with clean architecture.
+The 3 REST API services are implemented with clean architecture.
 
 ### Folder structure
 
 ![A sequence diagram](https://github.com/mnbao1975/iCommerce/blob/main/images/root-folders.png?raw=true)
 
-The api-gateway, build-product and search-product folders are REST API services. And, the cus- worker to process 2 kinds of events. So,ker processes and stores pushlished events i nto the separated workers database.
+The api-gateway, build-product and search-product folders are REST API services. And, the cus-insights folder is a worker for processing 2 types of event. This worker will store those events into the databases also.
 
-Also, the below folder structure of the build-product REST API service which will show how the code is structured with the clean architecture pattern.
+Also, the following folder structure of the build-product REST API service which will show how the source code is structured with the clean architecture pattern.
 
 ![A sequence diagram](https://github.com/mnbao1975/iCommerce/blob/main/images/build-product-folder.png?raw=true)
 
@@ -142,7 +142,7 @@ Also, the below folder structure of the build-product REST API service which wil
 
 ### Setup database servers
 
-Ensure MongoDB and Redis are installed and running on the local computer. Or we can use docker to get them run.
+Assume that MongoDB and Redis are installed and running on the local computer. Or we can use docker to get them run on the local machine.
 
 For MongoDB:
 
@@ -156,7 +156,7 @@ For Redis:
 $ docker run --rm --name local-redis -p 6379:6379 -d redis
 ```
 
-### Clone source code
+### Clone the source code
 
 The source code and all relevant documents are hosted on GitHub.
 
@@ -230,7 +230,7 @@ As mentioned before that the API gateway running as the main endpoint for user's
 To create a new product:
 
 ```
-curl --location --request POST 'http://localhost:3000/products' \
+$ curl --location --request POST 'http://localhost:3000/products' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "name": "A new product",
@@ -243,7 +243,7 @@ curl --location --request POST 'http://localhost:3000/products' \
 To update a specific product by id:
 
 ```
-curl --location --request PATCH 'http://localhost:3000/products/ckh9el09h0000vo150fnxhwl8' \
+$ curl --location --request PATCH 'http://localhost:3000/products/ckh9el09h0000vo150fnxhwl8' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "name": "Updated product",
@@ -256,14 +256,14 @@ curl --location --request PATCH 'http://localhost:3000/products/ckh9el09h0000vo1
 To delete a specific product by id:
 
 ```
-curl --location --request DELETE 'http://localhost:3000/products/ckh9el09h0000vo150fnxhwl8' \
+$ curl --location --request DELETE 'http://localhost:3000/products/ckh9el09h0000vo150fnxhwl8' \
 --header 'Content-Type: application/json'
 ```
 
 To search a specific product by id:
 
 ```
-curl --location --request GET 'http://localhost:3000/products/ckh79ap8700030a159eehbk7c' \
+$ curl --location --request GET 'http://localhost:3000/products/ckh79ap8700030a159eehbk7c' \
 --header 'Content-Type: application/json' \
 --header 'user-id: 123abc'
 
@@ -272,22 +272,19 @@ curl --location --request GET 'http://localhost:3000/products/ckh79ap8700030a159
 To get all products:
 
 ```
-curl --location --request GET 'http://localhost:3000/products' \
+$ curl --location --request GET 'http://localhost:3000/products' \
 --header 'Content-Type: application/json' \
 --header 'user-id: 123abc'
 ```
 
-To filter products with conditions such as name and color. The name will be fileter with 'regex' (regular expression):
+To filter products with conditions such as name and color. The name will be filtered by 'regex' (regular expression):
 
 ```
-curl --location --request GET 'http://localhost:3000/products?name=iphone&color=red' \
+$ curl --location --request GET 'http://localhost:3000/products?name=iphone&color=red' \
 --header 'Content-Type: application/json' \
 --header 'user-id: 123abc'
 ```
 
 ## Need to improve
 
-We should have 2 workers for processing 2 types of event: filtering products and viewing a product.
-
-docker run --rm --name local-mongo -p 27017:27017 -v ~/mongodata:/data/db -d mongo
-docker run --rm --name my-redis -p 6379:6379 -d redis
+We should have 2 workers for processing 2 types of event separately: filtering products and viewing a product.
