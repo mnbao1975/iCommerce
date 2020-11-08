@@ -43,12 +43,80 @@ The backend is designed with some modern patterns as following:
 
 ![A sequence diagram](https://github.com/mnbao1975/iCommerce/blob/main/images/NAB-seq-diagram.png?raw=true)
 
-The above diagram is the workflow for searching product(s). Users can view details of a specifice product or filter the list of products with conditions such as name and color. And, their activies will be stored in the database also.
+The above diagram is the workflow for searching product(s). Users can view details of a specifice product or filter the list of products with conditions such as name and color. And, their activies will be stored in the database for sales or marketing purpose.
 
-## System Scaling
+## Databases and data schema
+
+We use MongoDB (NoSQL) for storing information of product and customer's activity (as an event). And, using Redis as a pub/sub platform.
+
+Here are some examples of data stored in the MongoDB or pusblished to Redis.
+
+A product data:
+
+```
+{
+    "_id": "ckh79ap8700030a159eehbk7c",
+    "name": "Updated iPhone 12",
+    "price": 200,
+    "branch": "Apple",
+    "color": "yellow",
+    "createdOn": 1604727460663,
+    "modifiedOn": 1604745455123
+}
+```
+
+An event data of searching a specific product:
+
+```
+{
+    "_id": "ckh9dk5r40004cb159wvz3olq",
+    "eventName": "VIEW_PRODUCT",
+    "eventTime": 1604855552698,
+    "userId": "123abc",
+    "userAgent": "PostmanRuntime/7.26.5",
+    "metadata": {
+        "productId": "ckh798q2j00020a150jzlasvr"
+    },
+    "createdOn": 1604855552811
+}
+```
+
+An event data of filtering products by conditions of name and color:
+
+```
+{
+    "_id": "ckh922gv30002cb154uttbw9q",
+    "eventName": "FILTER_PRODUCT",
+    "eventTime": 1604836251596,
+    "userId": "123abc",
+    "userAgent": "PostmanRuntime/7.26.5",
+    "metadata": {
+        "query": {
+            "name": "iphone",
+            "color": "red"
+        }
+    },
+    "createdOn": 1604836251616
+}
+```
+
+Example of a publised event message (via Redis):
+
+```
+{
+  id: 'ckh9dkmej0001xw15e12h86hf',
+  eventName: 'VIEW_PRODUCT',
+  eventTime: 1604855574371,
+  userId: '123abc',
+  userAgent: 'PostmanRuntime/7.26.5',
+  metadata: { productId: 'ckh798q2j00020a150jzlasvr' },
+  createdOn: 1604855574379
+}
+```
 
 ## Tech Stacks
 
+- MacOS
 - MongoDB 4.x
 - Redis 6.x
 - NodeJS 12.x
@@ -64,7 +132,7 @@ The 3 REST API services are impleted with clean architecture.
 
 ![A sequence diagram](https://github.com/mnbao1975/iCommerce/blob/main/images/root-folders.png?raw=true)
 
-The api-gateway, build-product and search-product folders are REST API services. And, the cus-insights is the worker processes and stores pushlished events into the database.
+The api-gateway, build-product and search-product folders are REST API services. And, the cus- worker to process 2 kinds of events. So,ker processes and stores pushlished events i nto the separated workers database.
 
 Also, the below folder structure of the build-product REST API service which will show how the code is structured with the clean architecture pattern.
 
@@ -72,44 +140,154 @@ Also, the below folder structure of the build-product REST API service which wil
 
 ## Local deployment
 
-POST a product
+### Setup database servers
+
+Ensure MongoDB and Redis are installed and running on the local computer. Or we can use docker to get them run.
+
+For MongoDB:
+
+```
+$ docker run --rm --name local-mongo -p 27017:27017 -v ~/mongodata:/data/db -d mongo
+```
+
+For Redis:
+
+```
+$ docker run --rm --name local-redis -p 6379:6379 -d redis
+```
+
+### Clone source code
+
+The source code and all relevant documents are hosted on GitHub.
+
+```
+$ cd ~
+$ git clone https://github.com/mnbao1975/iCommerce.git
+```
+
+### Build & start the api-gateway service
+
+```
+$ cd ~/iCommerce/api-gateway
+```
+
+Save the sampledotenv file as .env and fill in the appropriate values
+
+```
+$ npm install
+$ npm run dev
+```
+
+### Build & start the build-product service
+
+Open a new terminal.
+
+```
+$ cd ~/iCommerce/build-product
+```
+
+Save the sampledotenv file as .env and fill in the appropriate values
+
+```
+$ npm install
+$ npm run dev
+```
+
+### Build & start the search-product service
+
+Open a new terminal.
+
+```
+$ cd ~/iCommerce/search-product
+```
+
+Save the sampledotenv file as .env and fill in the appropriate values
+
+```
+$ npm install
+$ npm run dev
+```
+
+### Build & start the cus-insights worker
+
+Open a new terminal.
+
+```
+$ cd ~/iCommerce/cus-insights
+```
+
+Save the sampledotenv file as .env and fill in the appropriate values
+
+```
+$ npm install
+$ npm run dev
+```
+
+## Testing
+
+As mentioned before that the API gateway running as the main endpoint for user's requests. And, all request examples will use port 3000 to send requests to the API gateway. So, in case we use another port for the API gateway, please change it.
+
+To create a new product:
+
+```
 curl --location --request POST 'http://localhost:3000/products' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-"name": "iPhone 12 Mini",
+"name": "A new product",
 "price": 50,
 "branch": "Apple",
 "color": "blue"
 }'
+```
 
-PATCH a product
-curl --location --request PATCH 'http://localhost:3000/products/ckh79ap8700030a159eehbk7c' \
+To update a specific product by id:
+
+```
+curl --location --request PATCH 'http://localhost:3000/products/ckh9el09h0000vo150fnxhwl8' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-"name": "Updated iPhone 12",
+"name": "Updated product",
 "price": 200,
 "branch": "Apple",
 "color": "yellow"
 }'
+```
 
-DELETE a product
-curl --location --request DELETE 'http://localhost:3000/products/ckh79vnag00009k15heoe9s1b' \
+To delete a specific product by id:
+
+```
+curl --location --request DELETE 'http://localhost:3000/products/ckh9el09h0000vo150fnxhwl8' \
 --header 'Content-Type: application/json'
+```
 
-GET a product
+To search a specific product by id:
+
+```
 curl --location --request GET 'http://localhost:3000/products/ckh79ap8700030a159eehbk7c' \
 --header 'Content-Type: application/json' \
 --header 'user-id: 123abc'
 
-GET all products
+```
+
+To get all products:
+
+```
 curl --location --request GET 'http://localhost:3000/products' \
 --header 'Content-Type: application/json' \
 --header 'user-id: 123abc'
+```
 
-GET products with conditions
+To filter products with conditions such as name and color. The name will be fileter with 'regex' (regular expression):
+
+```
 curl --location --request GET 'http://localhost:3000/products?name=iphone&color=red' \
 --header 'Content-Type: application/json' \
 --header 'user-id: 123abc'
+```
+
+## Need to improve
+
+We should have 2 workers for processing 2 types of event: filtering products and viewing a product.
 
 docker run --rm --name local-mongo -p 27017:27017 -v ~/mongodata:/data/db -d mongo
 docker run --rm --name my-redis -p 6379:6379 -d redis
