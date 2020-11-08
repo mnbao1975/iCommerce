@@ -41,7 +41,7 @@ The backend is designed with some modern patterns as following:
 
 ## A sequence diagram
 
-![High level design](https://github.com/mnbao1975/iCommerce/blob/main/images/NAB-seq-diagram.png?raw=true)
+![A sequence diagram](https://github.com/mnbao1975/iCommerce/blob/main/images/NAB-seq-diagram.png?raw=true)
 
 The above diagram is the workflow for searching product(s). Users can view details of a specifice product or filter the list of products with conditions such as name and color. And, their activies will be stored in the database also.
 
@@ -56,13 +56,19 @@ The above diagram is the workflow for searching product(s). Users can view detai
 
 ## Architecure of Application
 
-### Clean architecutre
+### The clean architecutre pattern
 
-The REST API services are impleted with clean architecture.
+The 3 REST API services are impleted with clean architecture.
 
 ### Folder structure
 
-The api-gateway, build-product and search-product folders are REST APIs. And, the cus-insights is the worker processes and stores pushlished events into the database.
+![A sequence diagram](https://github.com/mnbao1975/iCommerce/blob/main/images/root-folders.png?raw=true)
+
+The api-gateway, build-product and search-product folders are REST API services. And, the cus-insights is the worker processes and stores pushlished events into the database.
+
+Also, the below folder structure of the build-product REST API service which will show how the code is structured with the clean architecture pattern.
+
+![A sequence diagram](https://github.com/mnbao1975/iCommerce/blob/main/images/build-product-folder.png?raw=true)
 
 ## Local deployment
 
