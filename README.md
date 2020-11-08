@@ -25,6 +25,7 @@ Constraints & assumptions
 . MongoDB and Redis are installed and running
 
 High level design
+[a relative link](mnbao1975/iCommerce/blob/main/images/NAB-solution-architecture.png)
 
 Tech Stack
 
